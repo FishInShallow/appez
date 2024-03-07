@@ -1,5 +1,5 @@
 # appez
-
+```
 lib/
 |
 |-- api/                                    // 封装的接口
@@ -23,3 +23,4 @@ lib/
 |-- widgets/                                // 公共widget
 |
 |-- main.dart                               // 入口文件
+```
