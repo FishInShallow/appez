@@ -13,21 +13,24 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Appez'),
       ),
-      body: Obx(() => ListView.builder(
-        itemCount: controller.list.length,
-        itemBuilder: (BuildContext context, int index) => Row(
-          children: [
-            CircleCheckbox(false.obs),
-            Expanded(
-              child: Column(
-                children: [
-                  Text(controller.list[index].date),
-                  Text(controller.list[index].title,style: const TextStyle(height: 2.0))
-                ],
+      body: Obx(() => ListView(
+        children: controller.list.map((item) => Padding(
+          padding: const EdgeInsets.symmetric(vertical: 6),
+          child: Row(
+            children: [
+              CircleCheckbox(false.obs,onChanged: () => debugPrint('clicked: ${item.date}')),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(item.date),
+                    Text(item.title,style: const TextStyle(height: 2.0))
+                  ],
+                ),
               ),
-            ),
-          ],
-        )
+            ]
+          ),
+        )).toList(),
       ))
     );
   }

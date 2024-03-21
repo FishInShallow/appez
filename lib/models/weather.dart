@@ -1,9 +1,8 @@
 class Weather {
-  int code;
   String day;
   List<WeatherInfo> list;
 
-  Weather({this.code = 200,this.day = '',this.list = const[]});
+  Weather({this.day = '',this.list = const[]});
 
   factory Weather.fromJson(Map<String,dynamic> json) {
     List<WeatherInfo> tList = [];
@@ -11,7 +10,6 @@ class Weather {
       tList.add(WeatherInfo.fromJson(item));
     });
     return Weather(
-      code: json['code'],
       day: json['day'],
       list: tList
     );

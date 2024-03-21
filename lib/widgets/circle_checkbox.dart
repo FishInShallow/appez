@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 class CircleCheckbox extends StatelessWidget {
 
   final RxBool checked;
-  final Function()? onChanged;
-  const CircleCheckbox(this.checked,{super.key, this.onChanged});
+  final VoidCallback? onChanged;
+  const CircleCheckbox(this.checked,{Key? key, this.onChanged}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class CircleCheckbox extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       borderRadius: BorderRadius.circular(20),
       child: InkWell(
-        onTap: () {checked.toggle();onChanged;},
+        onTap: () {checked.toggle();onChanged?.call();},
         child: Padding(
           padding: const EdgeInsets.all(10),
           child: Icon(

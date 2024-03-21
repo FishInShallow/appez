@@ -7,11 +7,11 @@ import 'package:appez/models/result.dart';
 
 class BaseRquest {
   
-  BaseRquest() {  onInit(); }
-  late Dio dio;
+  BaseRquest() {  _onInit(); }
+  late Dio _dio;
 
-  void onInit() {
-    dio = Dio(BaseOptions(
+  void _onInit() {
+    _dio = Dio(BaseOptions(
       baseUrl: Config.baseUrl,
       sendTimeout: 3*1000,
       validateStatus: (status) => true,
@@ -19,7 +19,7 @@ class BaseRquest {
     ));
     /// https 校验
     if(Config.debugMode) {
-      (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (client){
+      (_dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (client){
         client.badCertificateCallback=(cert, host, port){
           return true;
         };
@@ -27,13 +27,13 @@ class BaseRquest {
       };
     }
     /// 拦截器
-    dio.interceptors.add(interceptors()) ;
+    _dio.interceptors.add(_interceptors()) ;
   }
   
   /// 通用请求方法 cRequest
   Future<Result> cRequest( String url, { String method = 'GET', dynamic data, Map<String,dynamic>? query,dynamic Function(int,int)? uploadProgress}) async {
     Map<String,dynamic>? map = query?.map((name,value)=>MapEntry(name,value.toString()));
-    Response response = await dio.request(url, options:Options(method: method), data: data, queryParameters: map,onSendProgress: uploadProgress);
+    Response response = await _dio.request(url, options:Options(method: method), data: data, queryParameters: map,onSendProgress: uploadProgress);
     Result result = Result.fromJson(response.data);
     if(response.statusCode==HttpStatus.ok){ 
       return result;
@@ -46,7 +46,7 @@ class BaseRquest {
   }
 
   /// 拦截器
-  InterceptorsWrapper interceptors(){
+  InterceptorsWrapper _interceptors(){
     return InterceptorsWrapper(
       /// 请求拦截器
       onRequest: (options, handler){
